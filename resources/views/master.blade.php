@@ -147,7 +147,8 @@
     <script src="{{ asset('js/jquery.js') }}"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    {{-- <script src="{{ asset('js/bootstrap.min.js') }}"></script> --}}
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <!-- Script to Activate the Carousel -->
     <script>
