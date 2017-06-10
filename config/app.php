@@ -177,6 +177,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        //For Heroku
+        Fideloper\Proxy\TrustedProxyServiceProvider::class,
+
         //Html Form
         Collective\Html\HtmlServiceProvider::class,
 
