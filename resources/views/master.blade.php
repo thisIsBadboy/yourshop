@@ -12,7 +12,8 @@
     <title>Modern Business - Start Bootstrap Template</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    {{-- <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet"> --}}
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
     <link href="{{ asset('css/modern-business.css') }}" rel="stylesheet">
