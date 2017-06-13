@@ -31,3 +31,10 @@ Route::resource('business.category', 'CategoryController');
 Route::resource('business.cart', 'CartController');
 
 Route::resource('business.account', 'AccountController');
+
+Route::resource('business.sale_invoice', 'SaleInvoiceController');
+
+Route::get('/business/{business_id}/account_configuration', function($business_id){
+	$business = App\Model\Business::find($business_id);
+	return view('account-configuration', ['business'=>$business]);
+});

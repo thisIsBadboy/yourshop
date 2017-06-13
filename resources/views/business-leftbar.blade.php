@@ -34,6 +34,10 @@
                 <a href="/business/{{ $business->id }}/account/create">Create Account</a>
             </li>
 
+            <li>
+                <a href="/business/{{ $business->id }}/account_configuration">Account Configuration</a>
+            </li>
+
             {{--
             <li>
                 <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>

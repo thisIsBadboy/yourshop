@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use DummyFullModelClass;
 use App\Model\Business;
 use Illuminate\Http\Request;
-use Cart;
-use App\Model\Product;
+use App\Model\SaleInvoice;
+use App\Model\SaleInvoiceItem;
 use App\Business\MyCart;
+use Cart;
 
-class CartController extends Controller
+class SaleInvoiceController extends Controller
 {
     protected $myCart;
     public function __construct(MyCart $myCart){
@@ -24,11 +25,7 @@ class CartController extends Controller
      */
     public function index(Business $business)
     {
-
-        $cart_contents = Cart::instance($business->id)->content();
-        $sale_cart = $this->myCart->getCart($business->id, $cart_contents);
-        
-        return view('sale-cart', ['business'=>$business, 'sale_cart'=>$sale_cart]);
+        //
     }
 
     /**
@@ -52,15 +49,28 @@ class CartController extends Controller
     public function store(Request $request, Business $business)
     {
         $input = $request->input('form');
-        $product = $business->product()->find($input['product_id']);
 
-        if(!empty($product)){
-            $cart_item = Cart::instance($business->id)->add([
-                'id'=>$product->id, 
-                'name'=>$product->title, 
-                'qty'=>1, 
-                'price'=>$product->price
-            ]);
+        $cart_contents = Cart::instance($business->id)->content();
+        $sale_cart = $this->myCart->getCart($business->id, $cart_contents);
+
+        $sale_invoice = new SaleInvoice;
+        $sale_invoice->business_id = $business->id;
+        $sale_invoice->total_amount = $sale_cart['total_amount'];
+        $sale_invoice->paid_amount = $input['paid_amount'];
+        $sale_invoice->total_qty = $sale_cart['total_qty'];
+        if($sale_invoice->save()){
+
+            foreach($sale_cart['contents'] as $content){
+                $sale_invoice_item = new SaleInvoiceItem;
+                $sale_invoice_item->invoice_id = $sale_invoice->id;
+                $sale_invoice_item->product_id = $content['id'];
+                $sale_invoice_item->qty = $content['qty'];
+                $sale_invoice_item->subtotal = $content['subtotal'];
+                $sale_invoice_item->save();
+            }
+
+            Cart::destroy();
+            return redirect()->route('business.product.index', $business);
         }
 
         return back();
