@@ -42,6 +42,10 @@
                 <a href="/business/{{ $business->id }}/journal_entry">Journal Entries</a>
             </li>
 
+            <li>
+                <a href="#">Journal Items</a>
+            </li>
+
             {{--
             <li>
                 <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
