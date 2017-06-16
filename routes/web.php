@@ -37,3 +37,5 @@ Route::resource('business.sale_invoice', 'SaleInvoiceController', ['only'=>['sto
 Route::resource('business.account_configuration', 'AccountConfigurationController', ['only'=>['index', 'update']]);
 
 Route::resource('business.journal_entry', 'JournalEntryController', ['only'=>['index']]);
+
+Route::resource('business.journal_item', 'JournalItemController', ['only'=>['index']]);

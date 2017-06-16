@@ -13,4 +13,8 @@ class JournalItem extends Model
     public function account(){
     	return $this->belongsTo('App\Model\Account');
     }
+
+    public function journal_entry(){
+    	return $this->belongsTo('App\Model\JouranlEntry');
+    }
 }

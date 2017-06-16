@@ -11,4 +11,8 @@ class JournalEntry extends Model
     public function business(){
     	return $this->belongsTo('App\Model\Business');
     }
+
+    public function journal_items(){
+    	return $this->hasMany('App\Model\JouranlItem');
+    }
 }

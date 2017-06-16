@@ -43,7 +43,7 @@
             </li>
 
             <li>
-                <a href="#">Journal Items</a>
+                <a href="/business/{{ $business->id }}/journal_item">Journal Items</a>
             </li>
 
             {{--
