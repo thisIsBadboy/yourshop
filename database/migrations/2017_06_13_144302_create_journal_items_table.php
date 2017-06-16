@@ -15,7 +15,12 @@ class CreateJournalItemsTable extends Migration
     {
         Schema::create('journal_items', function (Blueprint $table) {
             $table->increments('id');
-            $table->timestamps();
+            $table->integer('journal_entry_id')->unsigned();
+            $table->foreign('journal_entry_id')->references('id')->on('journal_entries');
+            $table->integer('account_id')->unsigned();
+            $table->foreign('account_id')->references('id')->on('accounts');
+            $table->enum('entry_type', ['dr', 'cr']);
+            $table->double('amount', 8, 5);
         });
     }
 

@@ -7,13 +7,13 @@ use App\Model\Business;
 use Illuminate\Http\Request;
 use Cart;
 use App\Model\Product;
-use App\Business\MyCart;
+use App\Business\BusinessCart;
 
 class CartController extends Controller
 {
-    protected $myCart;
-    public function __construct(MyCart $myCart){
-        $this->myCart = $myCart;
+    protected $businessCart;
+    public function __construct(BusinessCart $businessCart){
+        $this->businessCart = $businessCart;
     }
 
     /**
@@ -26,7 +26,7 @@ class CartController extends Controller
     {
 
         $cart_contents = Cart::instance($business->id)->content();
-        $sale_cart = $this->myCart->getCart($business->id, $cart_contents);
+        $sale_cart = $this->businessCart->getCart($business->id, $cart_contents);
         
         return view('sale-cart', ['business'=>$business, 'sale_cart'=>$sale_cart]);
     }

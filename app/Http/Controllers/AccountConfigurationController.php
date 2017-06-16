@@ -5,14 +5,14 @@ namespace App\Http\Controllers;
 use DummyFullModelClass;
 use App\Model\Business;
 use Illuminate\Http\Request;
-use App\Business\BusinessSaleInvoice;
+use App\Model\AccountConfiguration;
+use App\Business\BusinessAccountConfiguration;
 
-class SaleInvoiceController extends Controller
+class AccountConfigurationController extends Controller
 {
-    protected $saleInvoice;
-
-    public function __construct(BusinessSaleInvoice $saleInvoice){
-        $this->saleInvoice = $saleInvoice;
+    protected $accountConfiguration;
+    public function __construct(BusinessAccountConfiguration $accountConfiguration){
+        $this->accountConfiguration = $accountConfiguration;
     }
 
     /**
@@ -23,7 +23,12 @@ class SaleInvoiceController extends Controller
      */
     public function index(Business $business)
     {
-        //
+        $account_settings = [];
+
+        $chart_of_accounts = $business->accounts()->get();
+        $account_settings = $this->accountConfiguration->getConfiguration($business->id);
+
+        return view('account-configuration', ['business'=>$business, 'chart_of_accounts'=>$chart_of_accounts, 'account_settings'=>$account_settings]);
     }
 
     /**
@@ -46,13 +51,7 @@ class SaleInvoiceController extends Controller
      */
     public function store(Request $request, Business $business)
     {
-        $input = $request->input('form');
-
-        if(! $this->saleInvoice->createSaleInvoice($business, $input)){
-            return back()->withInput();
-        }
-
-        return redirect()->route('business.product.index', $business);
+        //
     }
 
     /**
@@ -62,7 +61,7 @@ class SaleInvoiceController extends Controller
      * @param  \DummyFullModelClass  $DummyModelVariable
      * @return \Illuminate\Http\Response
      */
-    public function show(Business $business, DummyModelClass $DummyModelVariable)
+    public function show(Business $business, AccountConfiguration $configuration)
     {
         //
     }
@@ -87,9 +86,13 @@ class SaleInvoiceController extends Controller
      * @param  \DummyFullModelClass  $DummyModelVariable
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Business $business, DummyModelClass $DummyModelVariable)
+    public function update(Request $request, Business $business, $configuration_id)
     {
-        //
+        $input = $request->input('form');
+
+        $update = AccountConfiguration::where(['id'=>$configuration_id, 'business_id'=>$business->id])->update(['chart_of_account_id'=>$input['account_id']]);
+
+        return redirect()->route('business.account_configuration.index', $business);
     }
 
     /**

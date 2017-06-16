@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateJournalEntriesTable extends Migration
+class CreateAccountsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,13 @@ class CreateJournalEntriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('journal_entries', function (Blueprint $table) {
+        Schema::create('accounts', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('business_id')->unsigned();
             $table->foreign('business_id')->references('id')->on('businesses');
+            $table->string('name');
+            $table->integer('type');
+            $table->string('code');
             $table->timestamps();
         });
     }
@@ -28,6 +31,6 @@ class CreateJournalEntriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('journal_entries');
+        Schema::dropIfExists('accounts');
     }
 }

@@ -5,16 +5,10 @@ namespace App\Http\Controllers;
 use DummyFullModelClass;
 use App\Model\Business;
 use Illuminate\Http\Request;
-use App\Business\BusinessSaleInvoice;
+use DB;
 
-class SaleInvoiceController extends Controller
+class JournalEntryController extends Controller
 {
-    protected $saleInvoice;
-
-    public function __construct(BusinessSaleInvoice $saleInvoice){
-        $this->saleInvoice = $saleInvoice;
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -23,7 +17,18 @@ class SaleInvoiceController extends Controller
      */
     public function index(Business $business)
     {
-        //
+        return "We'll come back later!!!";
+        
+        /*$journal_entries = DB::table('journal_entries')
+                                ->select('journal_entries.id', 'journal_entry_id', 'entry_type')
+                                ->join('journal_items', function($join) use ($business){
+                                    $join->on('journal_entries.id', '=', 'journal_items.journal_entry_id')
+                                    ->where('journal_entries.business_id', '=', $business->id);
+                                })
+                                ->groupBy('journal_items.journal_entry_id')
+                                ->get();
+
+        return $journal_entries;*/
     }
 
     /**
@@ -46,13 +51,7 @@ class SaleInvoiceController extends Controller
      */
     public function store(Request $request, Business $business)
     {
-        $input = $request->input('form');
-
-        if(! $this->saleInvoice->createSaleInvoice($business, $input)){
-            return back()->withInput();
-        }
-
-        return redirect()->route('business.product.index', $business);
+        //
     }
 
     /**

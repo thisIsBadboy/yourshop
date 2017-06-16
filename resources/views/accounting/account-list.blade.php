@@ -9,7 +9,7 @@
                 <h1 class="page-header">Accounts</h1>
 
                 @forelse($chart_of_accounts as $account)
-                    <li>{{ $account['name'] }}</li>
+                    <li>{{ $account['name'] }} ({{ $account['code'] }})</li>
                 @empty
                     <p>Your business has no account!</p>
                 @endforelse

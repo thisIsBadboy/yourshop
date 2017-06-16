@@ -6,7 +6,7 @@ use DummyFullModelClass;
 use App\Model\Business;
 use Illuminate\Http\Request;
 use App\Business\BusinessTree;
-use App\Model\ChartOfAccount;
+use App\Model\Account;
 
 class AccountController extends Controller
 {
@@ -24,7 +24,7 @@ class AccountController extends Controller
      */
     public function index(Business $business)
     {
-        $chart_of_accounts = $business->chart_of_accounts()->get();
+        $chart_of_accounts = $business->accounts()->get();
         return view('accounting.account-list', ['business'=>$business, 'chart_of_accounts'=>$chart_of_accounts]);
     }
 
@@ -52,7 +52,7 @@ class AccountController extends Controller
     {
         $input = $request->input('form');
 
-        $chartOfAccount = new ChartOfAccount;
+        $chartOfAccount = new Account;
         $chartOfAccount->business_id = $business->id;
         $chartOfAccount->name = $input['account_name'];
         $chartOfAccount->type = $input['account_type'];

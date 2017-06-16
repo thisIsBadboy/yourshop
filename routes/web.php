@@ -22,19 +22,18 @@ Route::get('logout', 'Auth\LoginController@logout');
 Route::get('signup', 'Auth\RegisterController@index');
 Route::post('sign_me_up', 'Auth\RegisterController@register');
 
-Route::resource('business', 'BusinessController');
+Route::resource('business', 'BusinessController', ['only'=>['index', 'create', 'store', 'show']]);
 
-Route::resource('business.product', 'ProductController');
+Route::resource('business.product', 'ProductController', ['only'=>['index', 'create', 'store']]);
 
-Route::resource('business.category', 'CategoryController');
+Route::resource('business.category', 'CategoryController', ['only'=>['index']]);
 
-Route::resource('business.cart', 'CartController');
+Route::resource('business.cart', 'CartController', ['only'=>['index', 'create', 'store']]);
 
-Route::resource('business.account', 'AccountController');
+Route::resource('business.account', 'AccountController', ['only'=>['index', 'create', 'store']]);
 
-Route::resource('business.sale_invoice', 'SaleInvoiceController');
+Route::resource('business.sale_invoice', 'SaleInvoiceController', ['only'=>['store']]);
 
-Route::get('/business/{business_id}/account_configuration', function($business_id){
-	$business = App\Model\Business::find($business_id);
-	return view('account-configuration', ['business'=>$business]);
-});
+Route::resource('business.account_configuration', 'AccountConfigurationController', ['only'=>['index', 'update']]);
+
+Route::resource('business.journal_entry', 'JournalEntryController', ['only'=>['index']]);

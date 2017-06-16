@@ -25,7 +25,15 @@ class Business extends Model
         return $this->hasMany('App\Model\Product');
     }
 
-    public function chart_of_accounts(){
-        return $this->hasMany('App\Model\ChartOfAccount');
+    public function accounts(){
+        return $this->hasMany('App\Model\Account');
+    }
+
+    public function account_configurations(){
+        return $this->hasMany('App\Model\AccountConfiguration');
+    }
+
+    public function journal_entries(){
+        return $this->hasMany('App\Model\JournalEntry');
     }
 }

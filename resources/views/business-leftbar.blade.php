@@ -38,6 +38,10 @@
                 <a href="/business/{{ $business->id }}/account_configuration">Account Configuration</a>
             </li>
 
+            <li>
+                <a href="/business/{{ $business->id }}/journal_entry">Journal Entries</a>
+            </li>
+
             {{--
             <li>
                 <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
