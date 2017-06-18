@@ -24,7 +24,7 @@
                             @foreach($journal_items as $key=>$item)
                             <tr>
                                 <td>{{ $key+1 }}</td>
-                                <td>{{ $item->name }}</td>
+                                <td>{{ $item->account_name }}</td>
                                 <td>{{ $item->amount }}</td>
                                 <td>
                                 @if($item->entry_type == 'dr') 

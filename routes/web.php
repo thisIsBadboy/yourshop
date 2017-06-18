@@ -39,3 +39,7 @@ Route::resource('business.account_configuration', 'AccountConfigurationControlle
 Route::resource('business.journal_entry', 'JournalEntryController', ['only'=>['index']]);
 
 Route::resource('business.journal_item', 'JournalItemController', ['only'=>['index']]);
+
+Route::resource('business.balance_sheet', 'BalanceSheetController', ['only'=>['index']]);
+
+Route::resource('business.trial_balance', 'TrialBalanceController', ['only'=>['index']]);

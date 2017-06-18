@@ -5,15 +5,15 @@ namespace App\Http\Controllers;
 use DummyFullModelClass;
 use App\Model\Business;
 use Illuminate\Http\Request;
-use DB;
 use App\Business\BusinessReport;
 
-class JournalItemController extends Controller
+class TrialBalanceController extends Controller
 {
     protected $businessReport;
     public function __construct(BusinessReport $businessReport){
         $this->businessReport = $businessReport;
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -22,9 +22,10 @@ class JournalItemController extends Controller
      */
     public function index(Business $business)
     {
-        $journal_items = $this->businessReport->getJournalItems($business);
+        $bundle = $this->businessReport->getTrialBalance($business);
+        //return $accounts;
 
-        return view('accounting.journal-item-list', ['business'=>$business, 'journal_items'=>$journal_items]);
+        return view('accounting.trial-balance', ['business'=>$business, 'bundle'=>$bundle]);
     }
 
     /**
