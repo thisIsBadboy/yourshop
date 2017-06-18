@@ -57,8 +57,8 @@ class BusinessReport {
                                 'journal_entries.id',
                                 'journal_entries.created_at',
                                 'journal_entries.updated_at',
-                                DB::raw("IFNULL(SUM(CASE WHEN journal_items.entry_type = 'dr' THEN journal_items.amount END), 0) AS debit_amount"),
-                                DB::raw("IFNULL(SUM(CASE WHEN journal_items.entry_type = 'cr' THEN journal_items.amount END), 0) AS credit_amount")
+                                DB::raw("COALESCE(SUM(CASE WHEN journal_items.entry_type = 'dr' THEN journal_items.amount END), 0) AS debit_amount"),
+                                DB::raw("COALESCE(SUM(CASE WHEN journal_items.entry_type = 'cr' THEN journal_items.amount END), 0) AS credit_amount")
                             )
                             ->join('journal_items', function($join) use ($business){
                                 $join->on('journal_entries.id', '=', 'journal_items.journal_entry_id')
