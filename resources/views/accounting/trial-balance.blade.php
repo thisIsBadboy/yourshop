@@ -14,8 +14,8 @@
                             <tr>
                                 <th>Account Group</th>
                                 <th>Account Name</th>
-                                <th>Debit Amount</th>
-                                <th>Credit Amount</th>
+                                <th style="text-align:right;">Debit Amount</th>
+                                <th style="text-align:right;">Credit Amount</th>
                             </tr>
                         </thead>
 
@@ -24,16 +24,24 @@
                             <tr>
                                 <td>{{ $account->ancestor }}</td>
                                 <td>{{ $account->account_name }} ({{ $account->account_code }})</td>
-                                <td>{{ $account->debit_amount }}</td>
-                                <td>{{ $account->credit_amount }}</td>
+                                <td style="text-align:right;">{{ $account->debit_amount }}</td>
+                                <td style="text-align:right;">{{ $account->credit_amount }}</td>
                             </tr>
                             @endforeach
 
                             <tr>
                                 <td></td>
                                 <td></td>
-                                <td>{{ $bundle['total_debit'] }}</td>
-                                <td>{{ $bundle['total_credit'] }}</td>
+                                <td style="text-align:right;">
+                                    {{ $bundle['total_debit'] }}
+                                    <hr style="border: 1px solid;">
+                                    <hr style="border: 1px solid;">
+                                </td>
+                                <td style="text-align:right;">
+                                    {{ $bundle['total_credit'] }}
+                                    <hr style="border: 1px solid;">
+                                    <hr style="border: 1px solid;">
+                                </td>
                             </tr>
                         </tbody>
                     </table>
