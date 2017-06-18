@@ -34,13 +34,13 @@
                                 <td></td>
                                 <td style="text-align:right;">
                                     {{ $bundle['total_debit'] }}
-                                    <hr style="border: 1px solid;">
-                                    <hr style="border: 1px solid;">
+                                    <hr style="border: 1px solid; margin:5px 0;">
+                                    <hr style="border: 1px solid; margin:5px 0;">
                                 </td>
                                 <td style="text-align:right;">
                                     {{ $bundle['total_credit'] }}
-                                    <hr style="border: 1px solid;">
-                                    <hr style="border: 1px solid;">
+                                    <hr style="border: 1px solid; margin:5px 0;">
+                                    <hr style="border: 1px solid; margin:5px 0;">
                                 </td>
                             </tr>
                         </tbody>
