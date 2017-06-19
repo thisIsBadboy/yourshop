@@ -23,7 +23,7 @@
                 <img class="img-responsive img-hover" src="http://placehold.it/700x400" alt="">
             </a>
             <h3>
-                <a target="_blank" href="business/{{ $business->id }}">{{ $business->name }}</a>
+                <a href="business/{{ $business->id }}">{{ $business->name }}</a>
             </h3>
             <p>{{ $business->description }}</p>
         </div>

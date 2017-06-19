@@ -75,6 +75,8 @@
                     </a>
                 </li>
 
+                {{--
+
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i>
@@ -125,6 +127,10 @@
                     </ul>
                     <!-- /.dropdown-messages -->
                 </li>
+
+                --}}
+
+                {{--
                 <!-- /.dropdown -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -204,6 +210,10 @@
                     </ul>
                     <!-- /.dropdown-tasks -->
                 </li>
+
+                --}}
+
+                {{--
                 <!-- /.dropdown -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -264,6 +274,8 @@
                     </ul>
                     <!-- /.dropdown-alerts -->
                 </li>
+                --}}
+
                 <!-- /.dropdown -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -274,9 +286,11 @@
                         </li>
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
+                        @if(Auth::user())
                         <li class="divider"></li>
-                        <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li><a href="/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
+                        @endif
                     </ul>
                     <!-- /.dropdown-user -->
                 </li>
