@@ -23,7 +23,7 @@
 
                 {{ Form::close() }}
 
-                {{ Form::open(['method'=>'PUT', 'route'=>['business.account_configuration.update', $business, $account_settings['sale_cash_dr']['configuration_id'] ]]) }}
+                {{ Form::open(['method'=>'PUT', 'route'=>['business.account_configuration.update', $business, $account_settings['sale_cash_cr']['configuration_id'] ]]) }}
 
                 <div class="form-group">
                     <label>Credit Cash Account </label>
@@ -38,7 +38,7 @@
 
                 {{ Form::close() }}
 
-                {{ Form::open(['method'=>'PUT', 'route'=>['business.account_configuration.update', $business, $account_settings['sale_cash_dr']['configuration_id'] ]]) }}
+                {{ Form::open(['method'=>'PUT', 'route'=>['business.account_configuration.update', $business, $account_settings['sale_due_dr']['configuration_id'] ]]) }}
 
                 <div class="form-group">
                     <label>Debit Due Account </label>
@@ -53,7 +53,7 @@
 
                 {{ Form::close() }}
 
-                {{ Form::open(['method'=>'PUT', 'route'=>['business.account_configuration.update', $business, $account_settings['sale_cash_dr']['configuration_id'] ]]) }}
+                {{ Form::open(['method'=>'PUT', 'route'=>['business.account_configuration.update', $business, $account_settings['sale_due_cr']['configuration_id'] ]]) }}
 
                 <div class="form-group">
                     <label>Credit Due Account </label>

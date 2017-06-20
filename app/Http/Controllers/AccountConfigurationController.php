@@ -90,7 +90,7 @@ class AccountConfigurationController extends Controller
     {
         $input = $request->input('form');
 
-        $update = AccountConfiguration::where(['id'=>$configuration_id, 'business_id'=>$business->id])->update(['chart_of_account_id'=>$input['account_id']]);
+        $update = AccountConfiguration::where(['id'=>$configuration_id, 'business_id'=>$business->id])->update(['account_id'=>$input['account_id']]);
 
         return redirect()->route('business.account_configuration.index', $business);
     }

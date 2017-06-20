@@ -22,7 +22,10 @@ class BalanceSheetController extends Controller
      */
     public function index(Business $business)
     {
-        return view('accounting.balance-sheet', ['business'=>$business]);
+        $balance_sheet_bundle = $this->businessReport->getBalanceSheet($business);
+        //return $balance_sheet_bundle;
+
+        return view('accounting.balance-sheet', ['business'=>$business, 'balance_sheet_bundle'=>$balance_sheet_bundle]);
     }
 
     /**
