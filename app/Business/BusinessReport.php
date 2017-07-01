@@ -111,9 +111,7 @@ class BusinessReport {
 
                             DB::raw("COALESCE(SUM(CASE WHEN journal_items.entry_type = 'dr' THEN journal_items.amount END), 0) debit_amount"),
 
-                            DB::raw("COALESCE(SUM(CASE WHEN journal_items.entry_type = 'cr' THEN journal_items.amount END), 0) AS credit_amount"),
-
-                            DB::raw("COALESCE(SUM(CASE WHEN journal_items.entry_type = 'dr' THEN journal_items.amount END), 0) - COALESCE(SUM(CASE WHEN journal_items.entry_type = 'cr' THEN journal_items.amount END), 0) AS account_balance")
+                            DB::raw("COALESCE(SUM(CASE WHEN journal_items.entry_type = 'cr' THEN journal_items.amount END), 0) AS credit_amount")
                         )
                         ->join('journal_items', function($join) use ($business){
                             $join->on('journal_entries.id', '=', 'journal_items.journal_entry_id')
@@ -168,6 +166,10 @@ class BusinessReport {
 	        	$root_type = $this->account_types[$account->account_type]['root_type'];
 	        	$account->ancestor = $this->account_types[$account->account_type]['ancestor'];
 
+	        	if($root_type >=2 && $root_type <= 4){ //Liability, Equity, Revenue
+	        		$account->account_balance = (-1) * $account->account_balance;
+	        	}
+
 	        	if(! array_key_exists($root_type, $bundle)){
 	        		$bundle[$root_type]['info'] = [
 	        			'name' => $this->account_types[$root_type]['name'],
@@ -177,7 +179,7 @@ class BusinessReport {
 	        		$bundle[$root_type]['group'] = [];
 	        	}
 
-	        	if($root_type >= 1 && $root_type <= 3){
+	        	if($root_type >= 1 && $root_type <= 3){ //Asset, Liabilty, Equity
 	        		$next_root_type = $this->account_types[$account->account_type]['next_root_type'];
 
 	        		if(! array_key_exists($next_root_type, $bundle[$root_type]['group'])){
@@ -192,38 +194,45 @@ class BusinessReport {
 	        		$bundle[$root_type]['group'][$next_root_type]['group'][] = $account;
 	        		$bundle[$root_type]['group'][$next_root_type]['info']['total'] += $account->account_balance;
 		        	$bundle[$root_type]['info']['total'] += $account->account_balance;
-	        	}else{
+	        	}else{ //Revenue, Expense
 		        	$bundle[$root_type]['group'][] = $account;
 		        	$bundle[$root_type]['info']['total'] += $account->account_balance;
 		        }
 	        }  
 
+	        $balance_sheet_bundle['left'] = $balance_sheet_bundle['right'] = [
+	        	'info' => [
+        			'total' => 0
+        		],
+        		'group' => []
+	        ];
+
+	        //$balance_sheet_bundle['left']['info'] = $balance_sheet_bundle['right']['info'] = ['total' => 0];
+	        //$balance_sheet_bundle['left']['group'] = $balance_sheet_bundle['right']['group'] = [];
+
 	        foreach($bundle as $key=>$group){
-	        	if($key == 1){
-	        		if(! array_key_exists('left', $balance_sheet_bundle)){
+	        	if($key == 1){ //Asset
+	        		/*if(! array_key_exists('left', $balance_sheet_bundle)){
 	        			$balance_sheet_bundle['left']['info'] = [
 	        				'total' => 0
 	        			];
-
 	        			$balance_sheet_bundle['left']['group'] = [];
-	        			$balance_sheet_bundle['left']['info']['total'] += $group['info']['total'];
-	        		}
+	        		}*/
 
 	        		$balance_sheet_bundle['left']['group'][$key] = $group;
-	        	}elseif($key >= 2 && $key <= 5){
-	        		if(! array_key_exists('right', $balance_sheet_bundle)){
+	        		$balance_sheet_bundle['left']['info']['total'] += $group['info']['total'];
+	        	}elseif($key >= 2 && $key <= 5){ //Liability, Equity, Revenue, Expense
+	        		/*if(! array_key_exists('right', $balance_sheet_bundle)){
 	        			$balance_sheet_bundle['right']['info'] = [
 	        				'total' => 0
 	        			];
 	        			$balance_sheet_bundle['right']['group'] = [];
-	        		}
+	        		}*/
 
 	        		$balance_sheet_bundle['right']['group'][$key] = $group;
 	        		$balance_sheet_bundle['right']['info']['total'] += $group['info']['total'];
 	        	}
 	        } 
-
-	        return $balance_sheet_bundle;
 
 	        /*$account_group = [];
 	        for($i=0;$i<count($accounts);$i++){
@@ -271,12 +280,88 @@ class BusinessReport {
 		        	}
 	        	}
 	        }*/
-
-
 	    }catch(Exception $e){
 
 	    }
 
-        return $bundle;
+        return $balance_sheet_bundle;
+	}
+
+	public function getProfitLoss(Business $business){
+		$profit_loss_bundle = [];
+
+		try{
+			$accounts = DB::table('journal_entries')
+	                        ->select(
+	                        	'accounts.id AS account_id',
+	                            'accounts.name AS account_name',
+	                            'accounts.code AS account_code',
+	                            'accounts.type AS account_type',
+
+	                            DB::raw("COALESCE(SUM(CASE WHEN journal_items.entry_type = 'dr' THEN journal_items.amount END), 0) debit_amount"),
+
+	                            DB::raw("COALESCE(SUM(CASE WHEN journal_items.entry_type = 'cr' THEN journal_items.amount END), 0) AS credit_amount"),
+
+	                            DB::raw("COALESCE(SUM(CASE WHEN journal_items.entry_type = 'dr' THEN journal_items.amount END), 0) - COALESCE(SUM(CASE WHEN journal_items.entry_type = 'cr' THEN journal_items.amount END), 0) AS account_balance")
+	                        )
+	                        ->join('journal_items', function($join) use ($business){
+	                            $join->on('journal_entries.id', '=', 'journal_items.journal_entry_id')
+	                            ->where(['journal_entries.business_id' => $business->id]);
+	                        })
+	                        ->join('accounts', 'journal_items.account_id', '=', 'accounts.id')
+	                        ->groupBy('accounts.id')
+	                        ->get();
+
+	        $bundle = [];
+
+	        foreach($accounts as $account){
+	        	$root_type = $this->account_types[$account->account_type]['root_type'];
+	        	$account->ancestor = $this->account_types[$account->account_type]['ancestor'];
+
+	        	if($root_type == 4){ //Revenue
+	        		$account->account_balance = (-1) * $account->account_balance;
+	        	}
+
+	        	if($root_type >= 4 && $root_type <= 5){ //Revenue, Expense
+
+	        		if(! array_key_exists($root_type, $bundle)){
+		        		$bundle[$root_type]['info'] = [
+		        			'name' => $this->account_types[$root_type]['name'],
+		        			'ancestor' => $this->account_types[$root_type]['ancestor'],
+		        			'total'=>0
+		        		];
+		        		$bundle[$root_type]['group'] = [];
+		        	}
+
+		        	$bundle[$root_type]['group'][] = $account;
+		        	$bundle[$root_type]['info']['total'] += $account->account_balance;
+		        }
+	        }  
+
+	        $profit_loss_bundle['profit_loss'] = [
+	        	'info' => [
+	        		'total' => 0
+	        	],
+	        	'group' => []
+	        ];
+
+	        foreach($bundle as $key=>$group){
+	        	if($key >= 4 && $key <= 5){ //Revenue, Expense
+	        		/*if(! array_key_exists('profit_loss', $profit_loss_bundle)){
+	        			$profit_loss_bundle['profit_loss']['info'] = [
+	        				'total' => 0
+	        			];
+	        			$profit_loss_bundle['profit_loss']['group'] = [];
+	        		}*/
+
+	        		$profit_loss_bundle['profit_loss']['group'][$key] = $group;
+	        		$profit_loss_bundle['profit_loss']['info']['total'] += $group['info']['total'];
+	        	}
+	        }
+	    }catch(Exception $e){
+
+	    }
+
+	    return $profit_loss_bundle; 
 	}
 }

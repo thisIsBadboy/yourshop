@@ -30,6 +30,9 @@
                                 <input class="form-control" placeholder="Confirm password" name="form[password_confirmation]" type="password">
                             </div>
                             <input type="submit" class="btn btn-lg btn-success btn-block" value="Signup"/>
+
+                            <br/>
+                            <p>Already have an account? Click here to <a href="/login">log in</a></p>
                         </fieldset>
                     </form>
                 </div>

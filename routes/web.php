@@ -43,3 +43,5 @@ Route::resource('business.journal_item', 'JournalItemController', ['only'=>['ind
 Route::resource('business.balance_sheet', 'BalanceSheetController', ['only'=>['index']]);
 
 Route::resource('business.trial_balance', 'TrialBalanceController', ['only'=>['index']]);
+
+Route::resource('business.profit_loss', 'ProfitLossController', ['only'=>['index']]);

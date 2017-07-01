@@ -43,11 +43,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/">Start Bootstrap</a>
+                <a class="navbar-brand" href="/">Home</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
+
+                    {{--
                     <li>
                         <a href="about.html">About</a>
                     </li>
@@ -111,6 +113,7 @@
                             </li>
                         </ul>
                     </li>
+                    --}}
 
                     @if(Auth::user())
                     <li>
@@ -123,7 +126,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Hi, {{ Auth::user()->fname }}<b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="logout">Log out</a>
+                                <a href="/logout">Log out</a>
                             </li>
                         </ul>
                     </li>

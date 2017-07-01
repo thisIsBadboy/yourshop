@@ -54,6 +54,10 @@
                 <a href="/business/{{ $business->id }}/balance_sheet">Balance Sheet</a>
             </li>
 
+            <li>
+                <a href="/business/{{ $business->id }}/profit_loss">Profit & Loss</a>
+            </li>
+
             {{--
             <li>
                 <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>

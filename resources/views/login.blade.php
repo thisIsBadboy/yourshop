@@ -29,7 +29,7 @@
                             <input type="submit" class="btn btn-lg btn-success btn-block" value="Login"/>
 
                             <br/>
-                            <p>Don't have an account? Click here to <a href="signup">sign up</a></p>
+                            <p>Don't have an account? Click here to <a href="/signup">sign up</a></p>
                         </fieldset>
                     </form>
                 </div>

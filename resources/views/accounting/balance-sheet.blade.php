@@ -8,6 +8,22 @@
             <div class="col-lg-12">
                 <h1 class="page-header">Balance Sheet</h1>
 
+                <h4 style="text-align:center;">
+                    Asset (@if(isset($balance_sheet_bundle['left'])) {{ $balance_sheet_bundle['left']['info']['total'] }} @else {{0}} @endif)
+                    =
+                    Liability (@if(isset($balance_sheet_bundle['right']['group'][2])) {{ $balance_sheet_bundle['right']['group'][2]['info']['total'] }} @else {{0}} @endif)
+                    +
+                    Equity (@if(isset($balance_sheet_bundle['right']['group'][3])) {{ $balance_sheet_bundle['right']['group'][3]['info']['total'] }} @else {{0}} @endif)
+                    +
+                    Revenue (@if(isset($balance_sheet_bundle['right']['group'][4])) {{ $balance_sheet_bundle['right']['group'][4]['info']['total'] }} @else {{0}} @endif)
+                    -
+                    Expense (@if(isset($balance_sheet_bundle['right']['group'][5])) {{ $balance_sheet_bundle['right']['group'][5]['info']['total'] }} @else {{0}} @endif)
+                    =
+                    @if(isset($balance_sheet_bundle['right'])) {{ $balance_sheet_bundle['right']['info']['total'] }} @else {{0}} @endif
+                </h4>
+                
+                <br/>
+
                 @if(isset($balance_sheet_bundle['left']))
                     @foreach($balance_sheet_bundle['left']['group'] as $balance_bundle)
                     <div class="panel panel-default">
@@ -172,7 +188,7 @@
 
                 @if(isset($balance_sheet_bundle['right']))
                     @foreach($balance_sheet_bundle['right']['group'] as $key => $balance_bundle)
-                        @if($key == 4 || $key == 5)
+                        @if($key == 4 || $key == 5) {{-- Revenue = 4 && Expense = 5 --}}
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h3 class="panel-title">{{ $balance_bundle['info']['name'] }}</h3>

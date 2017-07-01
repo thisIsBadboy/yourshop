@@ -76,7 +76,7 @@ class LoginController extends Controller
             return back();
         }
 
-        return redirect('/');
+        return redirect('/business');
     }
 
     /**
