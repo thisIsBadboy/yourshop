@@ -9,7 +9,7 @@
 
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Sale Cart</h1>
+                <h1 class="page-header">Invoice Detail</h1>
 
                 <div class="panel panel-default">
                     <div class="panel-body">
@@ -24,7 +24,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($sale_cart['contents'] as $content)
+                                @foreach($sale_invoice['contents'] as $content)
                                     <tr>
                                         <td><img src="http://placehold.it/700x400" alt="" class="img-responsive" width="200" height="150"></td>
                                         <td>{{ $content['title'] }}</td>
@@ -36,8 +36,8 @@
                                 <tr>
                                     <td></td>
                                     <td></td>
-                                    <td style="text-align:right;">Total Quantity = {{ $sale_cart['total_qty'] }}</td>
-                                    <td style="text-align:right;">Total Amount = TK {{ $sale_cart['total_amount'] }}</td>
+                                    <td style="text-align:right;">Total Quantity = {{ $sale_invoice['total_qty'] }}</td>
+                                    <td style="text-align:right;">Total Amount = TK {{ $sale_invoice['total_amount'] }}</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -56,7 +56,7 @@
                     <p>{{ $errors->first('paid_amount') }}</p>
                 </div>
 
-                <input type="submit" class="btn btn-lg btn-success btn-block" value="Create Invoice"/>
+                <input type="submit" class="btn btn-lg btn-success btn-block" value="Update Invoice"/>
             </div>
         </div>
         <!-- /.row -->

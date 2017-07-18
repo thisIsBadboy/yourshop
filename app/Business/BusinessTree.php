@@ -3,6 +3,7 @@
 namespace App\Business;
 use App\Model\Business;
 use App\Model\AccountType;
+use App\Model\Category;
 
 class BusinessTree {
 
@@ -10,8 +11,8 @@ class BusinessTree {
 
 	}
 
-	public function getCategoryTree(Business $business){
-		$categories = $business->category()->orderBy('level', 'asc')->get()->toArray();
+	public function getCategoryTree(){
+		$categories = Category::orderBy('level', 'asc')->get()->toArray();
 		$categories = $this->buildTree($categories);
 		
 		return $categories;

@@ -26,7 +26,7 @@ class CartController extends Controller
     {
 
         $cart_contents = Cart::instance($business->id)->content();
-        $sale_cart = $this->businessCart->getCart($business->id, $cart_contents);
+        $sale_cart = $this->businessCart->getCart($business, $cart_contents);
         
         return view('sale-cart', ['business'=>$business, 'sale_cart'=>$sale_cart]);
     }
@@ -52,7 +52,7 @@ class CartController extends Controller
     public function store(Request $request, Business $business)
     {
         $input = $request->input('form');
-        $product = $business->product()->find($input['product_id']);
+        $product = $business->products()->find($input['product_id']);
 
         if(!empty($product)){
             $cart_item = Cart::instance($business->id)->add([

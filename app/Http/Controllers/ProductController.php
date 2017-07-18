@@ -23,7 +23,7 @@ class ProductController extends Controller
      */
     public function index(Business $business)
     {
-        $products = $business->product()->get();
+        $products = $business->products()->get();
         return view('product.product-list', ['business'=>$business, 'products'=>$products]);
     }
 
@@ -35,7 +35,7 @@ class ProductController extends Controller
      */
     public function create(Business $business)
     {
-        $categories = $this->BusinessTree->getCategoryTree($business);
+        $categories = $this->BusinessTree->getCategoryTree();
         return view('product.add-product', ['business'=>$business, 'categories'=>$categories]);
     }
 
@@ -94,9 +94,19 @@ class ProductController extends Controller
      * @param  \DummyFullModelClass  $DummyModelVariable
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Business $business, DummyModelClass $DummyModelVariable)
+    public function update(Request $request, Business $business, Product $product)
     {
-        //
+        $form_action = $request->input('form_action');
+
+        if($form_action == 'publish_product'){
+            $product->post_status = 'online';
+            $product->save();
+        }elseif($form_action == 'unpublish_product'){
+            $product->post_status = 'offline';
+            $product->save();
+        }
+
+        return redirect()->route('business.product.index', $business);
     }
 
     /**

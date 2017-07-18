@@ -17,11 +17,7 @@ class Business extends Model
     	return $this->belongsTo('App\Model\User');
     }
 
-    public function category(){
-    	return $this->hasMany('App\Model\Category');
-    }
-
-    public function product(){
+    public function products(){
         return $this->hasMany('App\Model\Product');
     }
 
@@ -31,6 +27,10 @@ class Business extends Model
 
     public function account_configurations(){
         return $this->hasMany('App\Model\AccountConfiguration');
+    }
+
+    public function sale_invoices(){
+        return $this->hasMany('App\Model\SaleInvoice');
     }
 
     public function journal_entries(){

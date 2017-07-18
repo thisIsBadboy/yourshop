@@ -22,10 +22,16 @@
                 <a href="/business/{{ $business->id }}/product/create">Add Product</a>
             </li>
 
+            {{--
             <li>
                 <a href="/business/{{ $business->id }}/category">Categories</a>
             </li>
+            --}}
 
+            <li>
+                <a href="/business/{{ $business->id }}/sale_invoice">Sale Invoices</a>
+            </li>
+            
             <li>
                 <a href="/business/{{ $business->id }}/account">Accounts</a>
             </li>

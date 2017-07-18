@@ -15,7 +15,7 @@ class BusinessReport {
 		$this->account_types = $this->getAccountTypeInfo();
 	}
 
-	public function getAccountTypeInfo(){
+	private function getAccountTypeInfo(){
 		$account_types = AccountType::select('id', 'name', 'parent', 'level')->get()->toArray();
 
 		$types = [];

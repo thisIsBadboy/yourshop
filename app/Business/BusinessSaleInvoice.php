@@ -7,7 +7,7 @@ use Cart;
 use App\Model\Business;
 use App\Business\BusinessCart;
 use App\Business\BusinessAccountConfiguration;
-use App\Model\SaleInvoice, App\Model\SaleInvoiceItem;
+use App\Model\SaleInvoice, App\Model\SaleInvoiceItem, App\Model\SaleInvoicePaymentHistory;
 use App\Model\JournalEntry, App\Model\JournalItem;
 
 class BusinessSaleInvoice{
@@ -38,17 +38,23 @@ class BusinessSaleInvoice{
             $sale_invoice = new SaleInvoice;
             $sale_invoice->business_id = $business->id;
             $sale_invoice->total_amount = $sale_cart['total_amount'];
-            $sale_invoice->paid_amount = $paid_amount;
             $sale_invoice->total_qty = $sale_cart['total_qty'];
             if($sale_invoice->save()){
 
                 foreach($sale_cart['contents'] as $content){
                     $sale_invoice_item = new SaleInvoiceItem;
-                    $sale_invoice_item->invoice_id = $sale_invoice->id;
+                    $sale_invoice_item->sale_invoice_id = $sale_invoice->id;
                     $sale_invoice_item->product_id = $content['id'];
                     $sale_invoice_item->qty = $content['qty'];
                     $sale_invoice_item->subtotal = $content['subtotal'];
                     $sale_invoice_item->save();
+                }
+
+                if($paid_amount > 0){
+                    $payment_history = new SaleInvoicePaymentHistory;
+                    $payment_history->sale_invoice_id = $sale_invoice->id;
+                    $payment_history->paid_amount = $paid_amount;
+                    $payment_history->save();
                 }
             }
 

@@ -36,16 +36,26 @@
                                 <div class="row">
                                     <div class="col-lg-6">
                                     {{ Form::open(['method'=>'POST', 'route'=>['business.cart.store', $business]]) }}
-
                                         <input type="hidden" name="form[product_id]" value="{{ $product['id'] }}"/>
 
                                         <button type="submit" class="btn btn-primary"><i class="fa fa-shopping-cart"></i> Add To Cart</button>
                                     {{ Form::close() }}
                                     </div>
 
+                                    {{--
+                                    {{ Form::open(['method'=>'PUT', 'route'=>['business.product.update', $business, $product]]) }}
+                                        <input type="hidden" name="form_action" value="@if($product['post_status'] == 'offline') {{ "publish_product" }} @elseif($product['post_status'] == 'online') {{ "unpublish_product" }} @endif" />
+
+                                        <button type="submit" class="btn btn-primary">@if($product['post_status'] == 'offline') {{ "Publish" }} @elseif($product['post_status'] == 'online') {{ "Unpublish" }} @endif</button>
+                                    {{ Form::close() }}
+                                    --}}
+
+                                    
                                     <div class="col-lg-6">
                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#product_view"><i class="fa fa-search"></i> Quick View</button>
                                     </div>
+                                    
+                                    
                                 </div>
                             </div>
                         </div>

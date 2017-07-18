@@ -18,7 +18,6 @@ class CreateSaleInvoicesTable extends Migration
             $table->integer('business_id')->unsigned();
             $table->foreign('business_id')->references('id')->on('businesses');
             $table->double('total_amount', 15, 8);
-            $table->double('paid_amount', 15, 8);
             $table->integer('total_qty');
             $table->timestamps();
         });

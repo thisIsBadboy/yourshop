@@ -3,16 +3,18 @@
 namespace App\Http\Controllers;
 
 use DummyFullModelClass;
+use DB;
 use App\Model\Business;
 use Illuminate\Http\Request;
 use App\Business\BusinessSaleInvoice;
+use App\Model\SaleInvoice;
 
 class SaleInvoiceController extends Controller
 {
-    protected $saleInvoice;
+    protected $businessSaleInvoice;
 
-    public function __construct(BusinessSaleInvoice $saleInvoice){
-        $this->saleInvoice = $saleInvoice;
+    public function __construct(BusinessSaleInvoice $businessSaleInvoice){
+        $this->businessSaleInvoice = $businessSaleInvoice;
     }
 
     /**
@@ -23,7 +25,20 @@ class SaleInvoiceController extends Controller
      */
     public function index(Business $business)
     {
-        //
+        $sale_invoice = $business->sale_invoices()
+        ->leftJoin('sale_invoice_payment_histories', function($join){
+            $join->on('sale_invoices.id', '=', 'sale_invoice_payment_histories.sale_invoice_id');
+        })
+        ->groupBy('sale_invoices.id')
+        ->select(
+            'sale_invoices.*',
+            DB::raw("COALESCE(SUM(sale_invoice_payment_histories.paid_amount), 0) AS total_paid_amount")
+        )
+        ->get();
+
+        //$sale_invoice = $business->sale_invoices()->get();
+
+        return view('sale-invoice', ['business'=>$business, 'sale_invoice'=>$sale_invoice]);
     }
 
     /**
@@ -48,7 +63,7 @@ class SaleInvoiceController extends Controller
     {
         $input = $request->input('form');
 
-        if(! $this->saleInvoice->createSaleInvoice($business, $input)){
+        if(! $this->businessSaleInvoice->createSaleInvoice($business, $input)){
             return back()->withInput();
         }
 
@@ -62,9 +77,29 @@ class SaleInvoiceController extends Controller
      * @param  \DummyFullModelClass  $DummyModelVariable
      * @return \Illuminate\Http\Response
      */
-    public function show(Business $business, DummyModelClass $DummyModelVariable)
+    public function show(Business $business, SaleInvoice $saleInvoice)
     {
-        //
+        $sale_invoice_items = $saleInvoice->invoice_items()
+        ->join('products', function($join){
+            $join->on('sale_invoice_items.product_id', '=', 'products.id');
+        })
+        ->select(
+            'sale_invoice_items.id',
+            'sale_invoice_items.qty',
+            'sale_invoice_items.subtotal',
+            'products.title'
+        )
+        ->get();
+
+        $total_qty = $total_amount = 0;
+        foreach($sale_invoice_items as $item){
+            $total_qty += $item->qty;
+            $total_amount += $item->subtotal;
+        }
+
+        $sale_invoice = ['contents'=>$sale_invoice_items, 'total_qty'=>$total_qty, 'total_amount'=>$total_amount];
+
+        return view('sale_invoice_item', ['business'=>$business, 'sale_invoice'=>$sale_invoice]);
     }
 
     /**

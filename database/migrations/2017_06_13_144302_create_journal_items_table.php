@@ -20,7 +20,7 @@ class CreateJournalItemsTable extends Migration
             $table->integer('account_id')->unsigned();
             $table->foreign('account_id')->references('id')->on('accounts');
             $table->enum('entry_type', ['dr', 'cr']);
-            $table->double('amount', 8, 5);
+            $table->double('amount', 15, 8);
         });
     }
 

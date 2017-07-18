@@ -10,21 +10,20 @@ class BusinessCart {
 
 	}
 
-	public function getCart($business_id, $cart_contents){
-		$cart = $this->makeBundle($business_id, $cart_contents);
+	public function getCart(Business $business, $cart_contents){
+		$cart = $this->makeBundle($business, $cart_contents);
 
 		return $cart;
 	}
 
-	private function makeBundle($business_id, $cart_contents){
+	private function makeBundle(Business $business, $cart_contents){
 		$contents = [];
 		$total_amount = $total_qty = 0;
 
 		try{
-			$business = Business::find($business_id);
-
+			
 	        foreach($cart_contents as $key=>$item){
-	            $contents[$item->rowId] = $business->product()->find($item->id);
+	            $contents[$item->rowId] = $business->products()->find($item->id);
 	            $contents[$item->rowId]['qty'] = $item->qty;
 	            $contents[$item->rowId]['subtotal'] = $item->subtotal;
 

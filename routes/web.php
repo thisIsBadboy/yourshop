@@ -24,7 +24,7 @@ Route::post('sign_me_up', 'Auth\RegisterController@register');
 
 Route::resource('business', 'BusinessController', ['only'=>['index', 'create', 'store', 'show']]);
 
-Route::resource('business.product', 'ProductController', ['only'=>['index', 'create', 'store']]);
+Route::resource('business.product', 'ProductController', ['only'=>['index', 'create', 'store', 'update']]);
 
 Route::resource('business.category', 'CategoryController', ['only'=>['index']]);
 
@@ -32,7 +32,7 @@ Route::resource('business.cart', 'CartController', ['only'=>['index', 'create', 
 
 Route::resource('business.account', 'AccountController', ['only'=>['index', 'create', 'store']]);
 
-Route::resource('business.sale_invoice', 'SaleInvoiceController', ['only'=>['store']]);
+Route::resource('business.sale_invoice', 'SaleInvoiceController', ['only'=>['index', 'store', 'show']]);
 
 Route::resource('business.account_configuration', 'AccountConfigurationController', ['only'=>['index', 'update']]);
 

@@ -24,7 +24,7 @@ class CategoryController extends Controller
      */
     public function index(Business $business)
     {
-        $categories = $this->BusinessTree->getCategoryTree($business);
+        $categories = $this->BusinessTree->getCategoryTree();
         return view('category-list', ['business'=>$business, 'categories'=>$categories]);
     }
 
