@@ -26,7 +26,7 @@ class AccountConfigurationController extends Controller
         $account_settings = [];
 
         $chart_of_accounts = $business->accounts()->get();
-        $account_settings = $this->accountConfiguration->getConfiguration($business->id);
+        $account_settings = $this->accountConfiguration->getConfiguration($business);
 
         return view('accounting.account-configuration', ['business'=>$business, 'chart_of_accounts'=>$chart_of_accounts, 'account_settings'=>$account_settings]);
     }

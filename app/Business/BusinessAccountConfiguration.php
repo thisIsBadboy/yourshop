@@ -10,11 +10,10 @@ class BusinessAccountConfiguration{
 
 	}
 
-	public function getConfiguration($business_id){
+	public function getConfiguration(Business $business){
 		$account_settings = [];
 
 		try{
-			$business = Business::find($business_id);
 			$account_configurations = $business->account_configurations()->get();
 
 	        foreach($account_configurations as $key=>$configuration){

@@ -24,14 +24,14 @@ class BusinessSaleInvoice{
 
 		try{
 			$cart_contents = Cart::instance($business->id)->content();
-	        $sale_cart = $this->businessCart->getCart($business->id, $cart_contents);
+	        $sale_cart = $this->businessCart->getCart($business, $cart_contents);
 
 	        $paid_amount = isset($input['paid_amount']) ? floatval($input['paid_amount']) : 0;
 	        $paid_amount = $sale_cart['total_amount'] > $paid_amount ? $paid_amount : $sale_cart['total_amount'];
 
 	        $due_amount = $sale_cart['total_amount'] - $paid_amount;
 
-	        $account_settings = $this->accountConfiguration->getConfiguration($business->id);
+	        $account_settings = $this->accountConfiguration->getConfiguration($business);
 
             DB::beginTransaction();
 
